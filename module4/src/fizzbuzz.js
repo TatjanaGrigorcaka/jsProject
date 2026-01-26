@@ -1,5 +1,4 @@
-// fizzbuzz.js (parametrizēts)
-
+// fizzbuzz (parametrizēts)
 const N = Number(process.argv[2]);
 const div1 = Number(process.argv[3]) || 3;
 const word1 = process.argv[4] || "Fizz";
@@ -20,8 +19,7 @@ for (let i = 1; i <= N; i++) {
   console.log(output || i);
 }
 
-// // fizzbuzz.js
-
+// // fizzbuzz
 // const N = Number(process.argv[2]);
 
 // if (isNaN(N) || N <= 0) {
