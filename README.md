@@ -1,29 +1,25 @@
-# jsProject
+# Project name: jsProject
 
-This project is a simple JavaScript project that demonstrates:
+A simple learning project for practicing Node.js fundamentals and JavaScript backend development
 
-- displaying the current date and time
-- interacting with user
-- converting temperature
-- running Node.js scripts
-- using Git
+## Tehnologies
 
-## How to Run
+- **Node.js** - JavaScript runtime
+- **VS Code** - Code editor
+- **NPM** - Package manager
 
-1. Clone this repository:
+## Installation
 
-```bash
-git clone https://github.com/yourusername/projectname.git
-```
+Download the repository -
+`git clone https://github.com/yourusername/projectname.git`
 
-2. Go to the project folder
+Go to the project folder -
+`cd \path\of\my\projectname`
 
-cd projectname
+Install the dependencies -
+`npm install`
 
-3. Install dependencies
+## Start project
 
-npm install
-
-4. Run the script:
-
-node src/script.js
+To run the script -
+`node src/modulenumber/script.js`
