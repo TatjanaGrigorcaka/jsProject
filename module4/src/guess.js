@@ -1,4 +1,4 @@
-// guess
+// interactive number guessing game
 const readline = require("readline");
 
 // Izveido readline interfeisu
