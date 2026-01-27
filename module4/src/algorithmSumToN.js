@@ -1,5 +1,5 @@
 // sumToN
-//Algoritms: sum to N
+// Algoritms: sum to N
 
 // SĀKT
 // 1. Ievadīt skaitli N
@@ -7,7 +7,7 @@ const N = Number(process.argv[2]);
 
 // Papildus validācija (nav pseido-kodā, bet pievienota JS kodā)
 if (isNaN(N) || N < 1) {
-  console.log("Kļūda: Lūdzu ievadi pozitīvu veselu skaitli");
+  console.log("Kļūda: Lūdzu ievadi pozitīvu skaitli");
   process.exit(1);
 }
 
