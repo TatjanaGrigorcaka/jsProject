@@ -1,4 +1,5 @@
 // fizzbuzz (parametrizēts)
+// Iegūstam N no argumentiem
 const N = Number(process.argv[2]);
 const div1 = Number(process.argv[3]) || 3;
 const word1 = process.argv[4] || "Fizz";
