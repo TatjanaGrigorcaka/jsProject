@@ -1,4 +1,5 @@
 // multiplication table generator
+// Iegūstam N no argumentiem
 const N = Number(process.argv[2]);
 
 if (isNaN(N) || N <= 0) {
