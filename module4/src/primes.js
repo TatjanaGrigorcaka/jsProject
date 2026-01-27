@@ -1,4 +1,4 @@
-// primes detector
+// primes finder
 // Iegūstam N no argumentiem
 const N = Number(process.argv[2]);
 
