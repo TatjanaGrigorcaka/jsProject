@@ -1,7 +1,7 @@
 // interactive number guessing game
 const readline = require("readline");
 
-// Izveido readline interfeisu
+// Izveido readline interfeisu izvadei / ievadei
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
