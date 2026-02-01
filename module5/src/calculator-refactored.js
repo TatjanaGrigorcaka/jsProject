@@ -1,6 +1,16 @@
 // 1. Validācijas funkcija
 
-// Validē ievadītos argumentus
+/**
+ * Validē ievadītos argumentus
+ * @param {number} n1 - Pirmais skaitlis
+ * @param {string} op - Operators (+, -, *, /, %)
+ * @param {number} n2 - Otrais skaitlis
+ * @returns {string|null} Kļūdas ziņojums vai null, ja viss derīgs
+ * @example
+ * validateInput(5, "+", 2) // null
+ * validateInput(5, "/", 0) // null (dalīšana ar nulli tiks apstrādāta operācijā)
+ * validateInput("7", "*", 3) // "Kļūda: Lūdzu ievadiet derīgus skaitļus!"
+ */
 function validateInput(n1, op, n2) {
   if (isNaN(n1) || isNaN(n2)) {
     return "Kļūda: Lūdzu ievadiet derīgus skaitļus!";
@@ -14,26 +24,59 @@ function validateInput(n1, op, n2) {
 
 // 2. Operāciju funkcijas
 
-// Saskaita divus skaitļus
+/**
+ * Saskaita divus skaitļus
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ * @example
+ * add(3, 4) // 7
+ */
 const add = (a, b) => a + b;
 
-//Atņem divus skaitļus
+/**
+ * Atņem divus skaitļus
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ */
 const subtract = (a, b) => a - b;
 
-//Reizina divus skaitļus
+/**
+ * Reizina divus skaitļus
+ * @param {number} a
+ * @param {number} b
+ * @returns {number}
+ */
 const multiply = (a, b) => a * b;
 
-// Dalīšana ar pārbaudi, vai b nav 0
+/**
+ * Dalīšana ar pārbaudi, vai b nav 0
+ * @param {number} a
+ * @param {number} b
+ * @returns {number|string} Rezultāts vai kļūda
+ */
 const divide = (a, b) =>
   b === 0 ? "Kļūda: Dalīšana ar nulli nav atļauta" : a / b;
 
-//Atlikums dalot a ar b
+/**
+ * Atlikums dalot a ar b
+ * @param {number} a
+ * @param {number} b
+ * @returns {number|string} Rezultāts vai kļūda
+ */
 const modulo = (a, b) =>
   b === 0 ? "Kļūda: Dalīšana ar nulli nav atļauta" : a % b;
 
 // 3. Galvenā aprēķina funkcija
 
-// Aprēķina rezultātu atkarībā no operatora
+/**
+ * Aprēķina rezultātu atkarībā no operatora
+ * @param {number} a
+ * @param {string} op
+ * @param {number} b
+ * @returns {number|string} Rezultāts vai kļūda
+ */
 const calculate = (a, op, b) => {
   switch (op) {
     case "+":
@@ -53,7 +96,13 @@ const calculate = (a, op, b) => {
 
 // 4. Formatēšanas funkcija
 
-// Izvada rezultātu konsolē
+/**
+ * Izvada rezultātu konsolē
+ * @param {number|string} result
+ * @param {number} a
+ * @param {string} op
+ * @param {number} b
+ */
 const formatResult = (result, a, op, b) => {
   if (typeof result === "number") {
     console.log(`${a} ${op} ${b} = ${result}`);
