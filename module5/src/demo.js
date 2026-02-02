@@ -75,3 +75,50 @@ console.log(utils.average([])); // Brīdinājums: masīvs ir tukšs, vidējais =
 console.log(utils.average([1, "2", 3])); // Kļūda: masīva elements ar indeksu 1 nav skaitlis => NaN
 console.log(utils.average("123")); // Kļūda: ievade nav masīvs => NaN
 console.log(utils.average()); // Kļūda: masīvs nav padots => NaN
+
+// isEmail
+console.log(`\n isEmail: Vienkārša e-pasta validācija`);
+console.log(isEmail("test@example.com")); // true
+console.log(isEmail("user123@domain.co")); // true
+console.log(isEmail("invalid-email")); // false
+console.log(isEmail("")); // false
+console.log(isEmail(12345)); // false
+
+// isPhoneNumber
+console.log(`\n isPhoneNumber: Latvijas formāts (+371 XXXXXXXX)`);
+console.log(isPhoneNumber("+37112345678")); // true – derīgs numurs
+console.log(isPhoneNumber("+37187654321")); // true – derīgs numurs
+console.log(isPhoneNumber("+3711234567")); // false – par īsu (7 cipari)
+console.log(isPhoneNumber("+371123456789")); // false – par garu (9 cipari)
+console.log(isPhoneNumber("37112345678")); // false – trūkst "+"
+console.log(isPhoneNumber("+37212345678")); // false – nepareizs kods
+console.log(isPhoneNumber(12345678)); // false – nav string
+console.log(isPhoneNumber("+371abcdef12")); // false – burti, ne tikai cipari
+
+// isValidAge
+console.log(`\n isValidAge: 0-150`);
+console.log(isValidAge(25)); // true – derīgs vecums
+console.log(isValidAge(0)); // true – minimums
+console.log(isValidAge(150)); // true – maksimums
+console.log(isValidAge(-5)); // false – negatīvs vecums
+console.log(isValidAge(200)); // false – pāri maksimumam
+console.log(isValidAge("25")); // false – nav number tipa
+console.log(isValidAge(NaN)); // false – nav skaitlis
+
+// isStrongPassword
+console.log(`\n isStrongPassword: Vismaz 8 simboli, burti, cipari`);
+console.log(isStrongPassword("Abc12345")); // true  – derīgs
+console.log(isStrongPassword("abcdef12")); // true  – derīgs
+console.log(isStrongPassword("abc123")); // false – < 8 simboli
+console.log(isStrongPassword("abcdefgh")); // false – nav ciparu
+console.log(isStrongPassword("12345678")); // false – nav burtu
+console.log(isStrongPassword(12345678)); // false – nav string
+
+// isValidDate
+console.log(`\n YYYY-MM-DD formāts`);
+console.log(isValidDate("2025-12-01")); // true
+console.log(isValidDate("2025-02-28")); // true
+console.log(isValidDate("2025-02-30")); // false
+console.log(isValidDate("2025-13-01")); // false
+console.log(isValidDate("2025-2-1")); // false – formāts nepareizs
+console.log(isValidDate(20231201)); // false – nav string
