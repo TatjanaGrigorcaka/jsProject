@@ -127,10 +127,9 @@ console.log(validators.isValidDate("2025-13-01")); // false
 console.log(validators.isValidDate("2025-2-1")); // false – formāts nepareizs
 console.log(validators.isValidDate(20231201)); // false – nav string
 
-const nums = [1, 2, 3, 4, 5];
-
 // Higher-Order Functions
 console.log("Higher-Order Functions");
+const nums = [1, 2, 3, 4, 5];
 // myForEach
 console.log("myForEach:");
 higherOrder.myForEach(nums, (x) => console.log(x * 2));
@@ -146,3 +145,10 @@ console.log("myFilter:", evens);
 // myReduce
 const sum = higherOrder.myReduce(nums, (acc, x) => acc + x, 0);
 console.log("myReduce:", sum);
+
+// chained operations
+const chain = higherOrder
+  .myMap(nums, (x) => x + 1)
+  .filter((x) => x % 2 === 0)
+  .map((x) => x * 3);
+console.log("chained operations:", chain);
