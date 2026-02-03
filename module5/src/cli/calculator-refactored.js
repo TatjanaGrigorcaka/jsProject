@@ -1,28 +1,25 @@
-// 1. Validācijas funkcija
-
 /**
- * Validē ievadītos argumentus
- * @param {number} n1 - Pirmais skaitlis
+ * Validē kalkulatora ievades datus
+ * @param {number} a - Pirmais skaitlis
  * @param {string} op - Operators (+, -, *, /, %)
- * @param {number} n2 - Otrais skaitlis
- * @returns {string|null} Kļūdas ziņojums vai null, ja viss derīgs
+ * @param {number} b - Otrais skaitlis
+ * @returns {string|null} Kļūdas ziņojums vai null, ja ievade ir derīga
  * @example
- * validateInput(5, "+", 2) // null
- * validateInput(5, "/", 0) // null (dalīšana ar nulli tiks apstrādāta operācijā)
- * validateInput("7", "*", 3) // "Kļūda: Lūdzu ievadiet derīgus skaitļus!"
+ * validateInput(5, "+", 3) // null
+ * validateInput("a", "+", 2) // "Kļūda: Lūdzu ievadiet derīgus skaitļus!"
  */
-function validateInput(n1, op, n2) {
-  if (isNaN(n1) || isNaN(n2)) {
+const validateInput = (a, op, b) => {
+  if (isNaN(a) || isNaN(b)) {
     return "Kļūda: Lūdzu ievadiet derīgus skaitļus!";
   }
+
   const validOperators = ["+", "-", "*", "/", "%"];
   if (!validOperators.includes(op)) {
     return `Kļūda: Nezināms operators "${op}"`;
   }
-  return null; // Null nozīmē, ka kļūdu nav
-}
 
-// 2. Operāciju funkcijas
+  return null;
+};
 
 /**
  * Saskaita divus skaitļus
@@ -30,7 +27,7 @@ function validateInput(n1, op, n2) {
  * @param {number} b
  * @returns {number}
  * @example
- * add(3, 4) // 7
+ * add(2, 3) // 5
  */
 const add = (a, b) => a + b;
 
@@ -51,31 +48,34 @@ const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 
 /**
- * Dalīšana ar pārbaudi, vai b nav 0
+ * Dalīšana ar nulles pārbaudi
  * @param {number} a
  * @param {number} b
- * @returns {number|string} Rezultāts vai kļūda
+ * @returns {number|string} Rezultāts vai kļūdas ziņojums
+ * @example
+ * divide(10, 2) // 5
+ * divide(10, 0) // "Kļūda: Dalīšana ar nulli nav atļauta"
  */
 const divide = (a, b) =>
   b === 0 ? "Kļūda: Dalīšana ar nulli nav atļauta" : a / b;
 
 /**
- * Atlikums dalot a ar b
+ * Aprēķina atlikumu dalot
  * @param {number} a
  * @param {number} b
- * @returns {number|string} Rezultāts vai kļūda
+ * @returns {number|string}
  */
 const modulo = (a, b) =>
   b === 0 ? "Kļūda: Dalīšana ar nulli nav atļauta" : a % b;
 
-// 3. Galvenā aprēķina funkcija
-
 /**
- * Aprēķina rezultātu atkarībā no operatora
+ * Izvēlas un izpilda matemātisko operāciju
  * @param {number} a
  * @param {string} op
  * @param {number} b
- * @returns {number|string} Rezultāts vai kļūda
+ * @returns {number|string} Aprēķina rezultāts vai kļūda
+ * @example
+ * calculate(5, "*", 4) // 20
  */
 const calculate = (a, op, b) => {
   switch (op) {
@@ -89,16 +89,12 @@ const calculate = (a, op, b) => {
       return divide(a, b);
     case "%":
       return modulo(a, b);
-    default:
-      return `Kļūda: Nezināms operators "${op}"`;
   }
 };
 
-// 4. Formatēšanas funkcija
-
 /**
- * Izvada rezultātu konsolē
- * @param {number|string} result
+ * Formatē un izvada rezultātu konsolē
+ * @param {number|string} result - Aprēķina rezultāts vai kļūda
  * @param {number} a
  * @param {string} op
  * @param {number} b
@@ -111,22 +107,25 @@ const formatResult = (result, a, op, b) => {
   }
 };
 
-// 5. Galvenā programmas loģika
+/**
+ * Galvenā kalkulatora palaišanas funkcija
+ * @param {number} a - Pirmais skaitlis
+ * @param {string} op - Operators
+ * @param {number} b - Otrais skaitlis
+ * @example
+ * runCalculator(5, "+", 3)
+ */
+const runCalculator = (a, op, b) => {
+  const error = validateInput(a, op, b);
+  if (error) {
+    console.log(error);
+    return;
+  }
 
-// Iegūstam argumentus no termināļa
-const num1 = Number(process.argv[2]);
-const operator = process.argv[3];
-const num2 = Number(process.argv[4]);
+  const result = calculate(a, op, b);
+  formatResult(result, a, op, b);
+};
 
-// Validācija
-const error = validateInput(num1, operator, num2);
-
-if (error) {
-  console.log(error);
-} else {
-  const result = calculate(num1, operator, num2);
-  formatResult(result, num1, operator, num2);
-}
-
-// To ran calculator:
-// node .\calculator.js 10 - 5
+module.exports = {
+  runCalculator,
+};
