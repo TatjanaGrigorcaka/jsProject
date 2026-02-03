@@ -230,7 +230,7 @@ const factorial = (n) => {
  * @example
  * sum([1, 2, 3]) // 6
  */
-const sum = (arr) => {
+const sumResult = (arr) => {
   // Pārbaude: vai arguments ir padots
   if (arr === undefined || arr === null) {
     console.log("Kļūda: masīvs nav padots");
@@ -300,7 +300,7 @@ const average = (arr) => {
   }
 
   // Aprēķina summu ar iepriekš definēto sum funkciju
-  const total = sum(arr);
+  const total = sumResult(arr);
 
   // Aprēķina vidējo
   return total / arr.length;
@@ -313,6 +313,6 @@ module.exports = {
   clamp,
   isPrime,
   factorial,
-  sum,
+  sumResult,
   average,
 };
