@@ -150,27 +150,58 @@ console.log(isValidDate(20231201)); // false – nav string
 // Higher-Order Functions
 console.log("\nHigher-Order Functions\n");
 const nums = [1, 2, 3, 4, 5];
+
 // myForEach
 console.log("myForEach:");
-myForEach(nums, (x) => console.log(x * 2));
+// callback funkcija
+const printElement = function (x) {
+  console.log(x);
+};
+// funkcijas izsaukums
+myForEach(nums, printElement);
 
 // myMap
-const doubled = myMap(nums, (x) => x * 2);
+// callback funkcija
+const doubleValue = function (x) {
+  return x * 2;
+};
+// funkcijas izsaukums
+const doubled = myMap(nums, doubleValue);
 console.log("myMap:", doubled);
 
 // myFilter
-const evens = myFilter(nums, (x) => x % 2 === 0);
+// callback funkcija
+const isEven = function (x) {
+  return x % 2 === 0;
+};
+// funkcijas izsaukums
+const evens = myFilter(nums, isEven);
 console.log("myFilter:", evens);
 
 // myReduce
-const sumResult2 = myReduce(nums, (acc, x) => acc + x, 0);
+// callback funkcija
+const sumValues = function (acc, x) {
+  return acc + x;
+};
+// funkcijas izsaukums
+const sumResult2 = myReduce(nums, sumValues, 0);
 console.log("myReduce:", sumResult2);
 
-// chained operations (manuāli)
-const step1 = myMap(nums, (x) => x + 1);
-const step2 = myFilter(step1, (x) => x % 2 === 0);
-const chain = myMap(step2, (x) => x * 3);
-
+// chained operations
+// callback funkcijas
+const addOne = function (x) {
+  return x + 1;
+};
+const isEven2 = function (x) {
+  return x % 2 === 0;
+};
+const multiplyByThree = function (x) {
+  return x * 3;
+};
+// chained operations
+const step1 = myMap(nums, addOne);
+const step2 = myFilter(step1, isEven2);
+const chain = myMap(step2, multiplyByThree);
 console.log("chained operations:", chain);
 
 // calculator-refactored
