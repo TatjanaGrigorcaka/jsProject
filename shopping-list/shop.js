@@ -1,19 +1,22 @@
 const { loadList, saveList } = require("./storage");
 
 // Iegūstam komandu un argumentus
-const [, , command, name, price] = process.argv;
+const [, , command, name, qtyInput, priceInput] = process.argv;
 
 // Sākotnēji ielādējam datus atmiņā
 let list = loadList();
 
 switch (command) {
   case "add":
-    if (!name || isNaN(Number(price))) {
-      console.log(
-        "Kļūda: Lūdzu norādiet nosaukumu un cenu (piem., add Maize 1.20)",
-      );
+    const qty = Number(qtyInput);
+    const price = Number(priceInput);
+
+    // Validācija
+    if (!name || isNaN(qty) || isNaN(price) || qty <= 0 || price <= 0) {
+      console.log("Kļūda: Izmanto: add [nosaukums] [daudzums] [cena]");
+      console.log("Piemērs: node shop.js add Maize 3 1.20");
     } else {
-      const item = { name, price: Number(price) };
+      const item = { name, qty, price };
       list.push(item);
       saveList(list);
       console.log(`✓ Pievienots: ${name} (${Number(price).toFixed(2)} EUR)`);
