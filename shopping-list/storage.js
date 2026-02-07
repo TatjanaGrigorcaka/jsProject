@@ -8,10 +8,10 @@ const PRICES_FILE = "./prices.json";
  * Ja fails neeksistē vai ir kļūdains — atgriež []
  */
 function loadList() {
-  if (!fs.existsSync(FILE_PATH)) {
+  if (!fs.existsSync(LIST_FILE)) {
     return [];
   }
-  const data = fs.readFileSync(FILE_PATH, "utf8");
+  const data = fs.readFileSync(LIST_FILE, "utf8");
   return JSON.parse(data || "[]");
 }
 
@@ -19,7 +19,7 @@ function loadList() {
  * Saglabā masīvu shopping.json failā glītā formātā
  */
 function saveList(items) {
-  fs.writeFileSync(FILE_PATH, JSON.stringify(items, null, 2));
+  fs.writeFileSync(LIST_FILE, JSON.stringify(items, null, 2));
 }
 
 // Cenu datubāzes funkcijas

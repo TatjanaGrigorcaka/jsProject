@@ -8,5 +8,10 @@
     "name": "Piens",
     "qty": 2,
     "price": 1.5
+  },
+  {
+    "name": "Siers",
+    "qty": 1,
+    "price": 4.5
   }
 ]

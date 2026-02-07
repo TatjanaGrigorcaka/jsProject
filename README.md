@@ -2,7 +2,7 @@
 
 A simple learning project for practicing Node.js fundamentals and JavaScript backend development
 
-## Tehnologies
+## Technologies
 
 - **Node.js** - JavaScript runtime
 - **VS Code** - Code editor
@@ -22,4 +22,4 @@ Install the dependencies -
 ## Start project
 
 To run the script -
-`node src/modulenumber/script.js`
+`node script.js`
