@@ -1,4 +1,5 @@
 const { loadList, saveList } = require("./storage");
+const { calcLineTotal, calcGrandTotal, countUnits } = require("./utils");
 
 // Iegūstam komandu un argumentus
 const [, , command, name, qtyInput, priceInput] = process.argv;
@@ -19,7 +20,11 @@ switch (command) {
       const item = { name, qty, price };
       list.push(item);
       saveList(list);
-      console.log(`✓ Pievienots: ${name} (${Number(price).toFixed(2)} EUR)`);
+
+      const lineTotal = calcLineTotal(item).toFixed(2);
+      console.log(
+        `✓ Pievienots: ${name} × ${qty} (${price.toFixed(2)} EUR/gab.) = ${lineTotal} EUR`,
+      );
     }
     break;
 
@@ -29,16 +34,20 @@ switch (command) {
     } else {
       console.log("Iepirkumu saraksts:");
       list.forEach((item, index) => {
+        const lineTotal = calcLineTotal(item).toFixed(2);
         console.log(
-          `${index + 1}. ${item.name} — ${item.price.toFixed(2)} EUR`,
+          `  ${index + 1}. ${item.name} × ${item.qty} — ${item.price.toFixed(2)} EUR/gab. — ${lineTotal} EUR`,
         );
       });
     }
     break;
 
   case "total":
-    const total = list.reduce((sum, item) => sum + item.price, 0);
-    console.log(`Kopā: ${total.toFixed(2)} EUR (${list.length} produkti)`);
+    const grandTotal = calcGrandTotal(list).toFixed(2);
+    const totalUnits = countUnits(list);
+    console.log(
+      `Kopā: ${grandTotal} EUR (${totalUnits} vienības, ${list.length} produkti)`,
+    );
     break;
 
   case "clear":
@@ -51,8 +60,8 @@ switch (command) {
 }
 
 // CLI commands to ran shop.js
-// node shop.js add Maize 1.20
-// node shop.js add Piens 1.50
+// node shop.js add Maize 3 1.20
+// node shop.js add Piens 2 1.50
 // node shop.js list
 // node shop.js total
 // node shop.js clear
