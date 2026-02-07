@@ -13,7 +13,7 @@ switch (command) {
     const price = Number(priceInput);
 
     // Validācija
-    if (!name || isNaN(qty) || isNaN(price) || qty <= 0 || price <= 0) {
+    if (!name || isNaN(qty) || isNaN(price) || qty < 0 || price < 0) {
       console.log("Kļūda: Izmanto: add [nosaukums] [daudzums] [cena]");
       console.log("Piemērs: node shop.js add Maize 3 1.20");
     } else {
