@@ -36,22 +36,50 @@ async function run() {
   switch (command) {
     case "add":
       const qty = Number(qtyInput);
+      let prices = loadPrices(); // Ielādējam esošās cenas
 
-      // Validācija (uz šo brīdi pārbaudām tikai nosaukumu un daudzumu)
       if (!name || isNaN(qty) || qty <= 0) {
         console.log("Kļūda: Izmanto: add [nosaukums] [daudzums]");
-        console.log("Piemērs: node shop.js add Maize 3");
       } else {
-        // Izsaucam readline interakciju
-        const price = await askForPrice();
+        let finalPrice;
+        const productName =
+          name.charAt(0).toUpperCase() + name.slice(1).toLowerCase(); // Standartizējam nosaukumu
+        const existingPrice = prices[productName];
 
-        const item = { name, qty, price };
+        if (existingPrice) {
+          // 1. Cena jau eksistē
+          console.log(`Atrasta cena: ${existingPrice.toFixed(2)} EUR/gab.`);
+          const answer = await new Promise((res) =>
+            rl.question("[A]kceptēt / [M]ainīt? > ", res),
+          );
+
+          if (answer.toUpperCase() === "M") {
+            finalPrice = await askForPrice();
+            prices[productName] = finalPrice; // Atjaunina cenu objektā
+            savePrices(prices); // Saglabā prices.json
+            console.log(
+              `✓ Cena atjaunināta: ${productName} → ${finalPrice.toFixed(2)} EUR`,
+            );
+          } else {
+            finalPrice = existingPrice;
+          }
+        } else {
+          // 2. Cena nav zināma
+          finalPrice = await askForPrice();
+          prices[productName] = finalPrice;
+          savePrices(prices);
+          console.log(
+            `✓ Cena saglabāta: ${productName} (${finalPrice.toFixed(2)} EUR)`,
+          );
+        }
+
+        // Pievienojam sarakstam
+        const item = { name: productName, qty, price: finalPrice };
         list.push(item);
         saveList(list);
 
-        const lineTotal = calcLineTotal(item).toFixed(2);
         console.log(
-          `✓ Pievienots: ${name} × ${qty} (${price.toFixed(2)} EUR/gab.) = ${lineTotal} EUR`,
+          `✓ Pievienots: ${productName} × ${qty} (${finalPrice.toFixed(2)} EUR/gab.) = ${(qty * finalPrice).toFixed(2)} EUR`,
         );
       }
       break;

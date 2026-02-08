@@ -2,12 +2,17 @@
   {
     "name": "Maize",
     "qty": 3,
-    "price": 1.2
+    "price": 1.25
   },
   {
     "name": "Piens",
     "qty": 2,
     "price": 1.5
+  },
+  {
+    "name": "Maize",
+    "qty": 1,
+    "price": 1.2
   },
   {
     "name": "Siers",
