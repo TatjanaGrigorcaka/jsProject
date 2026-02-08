@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Piens",
+    "qty": 1,
+    "price": 1.2
+  },
+  {
+    "name": "Maize",
+    "qty": 2,
+    "price": 1.35
+  },
+  {
+    "name": "Jogurts",
+    "qty": 1,
+    "price": 2
+  }
+]

@@ -1,6 +1,18 @@
 const readline = require("readline");
-const { loadList, saveList, loadPrices, savePrices } = require("./storage");
-const { calcLineTotal, calcGrandTotal, countUnits } = require("./utils");
+const {
+  loadList,
+  saveList,
+  loadPrices,
+  savePrices,
+  getAvailableLists,
+  exportToText,
+} = require("./storage");
+const {
+  calcLineTotal,
+  calcGrandTotal,
+  countUnits,
+  formatForSms,
+} = require("./utils");
 
 // Izveidojam interfeisu saziņai ar lietotāju
 const rl = readline.createInterface({
@@ -28,10 +40,34 @@ function askForPrice() {
 
 // Galvenā asinhronā funkcija
 async function run() {
+  // Saraksta izvēle
+  const existingLists = getAvailableLists();
+  if (existingLists.length > 0) {
+    console.log("Pieejamie saraksti: " + existingLists.join(", "));
+  }
+
+  const fileChoice = await new Promise((res) =>
+    rl.question("Ar kuru sarakstu strādāsim? (ievadi nosaukumu): ", res),
+  );
+
+  // Standartizējam faila nosaukumu
+  const activeFile = fileChoice.endsWith(".json")
+    ? fileChoice
+    : `${fileChoice}.json`;
+
   // Iegūstam komandu un argumentus
   const [, , command, name, qtyInput] = process.argv;
   // Sākotnēji ielādējam datus atmiņā
-  let list = loadList();
+  let list = loadList(activeFile);
+  if (list.length === 0) {
+    console.log(
+      `ℹ️ Saraksts '${activeFile}' ir tukšs vai jauns. Pievienojot pirmo preci, fails tiks izveidots.`,
+    );
+  } else {
+    console.log(
+      `✅ Ielādēts esošs saraksts: '${activeFile}' (${list.length} pozīcijas).`,
+    );
+  }
   // Ielādējam esošās cenas
   let prices = loadPrices();
 
@@ -77,8 +113,9 @@ async function run() {
         // Pievienojam sarakstam
         const item = { name: productName, qty, price: finalPrice };
         list.push(item);
-        saveList(list);
+        saveList(activeFile, list);
         const lineTotal = calcLineTotal(item).toFixed(2);
+        console.log(`Pievienots sarakstā ${activeFile}`);
         console.log(
           `✓ Pievienots: ${productName} × ${qty} (${finalPrice.toFixed(2)} EUR/gab.) = ${lineTotal} EUR`,
         );
@@ -87,9 +124,9 @@ async function run() {
 
     case "list":
       if (list.length === 0) {
-        console.log("Iepirkumu saraksts ir tukšs.");
+        console.log(`Saraksts '${activeFile}' ir tukšs.`);
       } else {
-        console.log("Iepirkumu saraksts:");
+        console.log(`Saraksta '${activeFile}' saturs:`);
         list.forEach((item, index) => {
           const lineTotal = calcLineTotal(item).toFixed(2);
           console.log(
@@ -103,17 +140,32 @@ async function run() {
       const grandTotal = calcGrandTotal(list).toFixed(2);
       const totalUnits = countUnits(list);
       console.log(
-        `Kopā: ${grandTotal} EUR (${totalUnits} vienības, ${list.length} produkti)`,
+        `Kopā sarakstā ${activeFile}: ${grandTotal} EUR (${totalUnits} vienības, ${list.length} produkti)`,
       );
       break;
 
+    case "export":
+      if (list.length === 0) {
+        console.log("Nav ko eksportēt - saraksts ir tukšs!");
+      } else {
+        const grandTotal = calcGrandTotal(list).toFixed(2);
+        const smsContent = formatForSms(list, grandTotal);
+        const exportedFile = exportToText(activeFile, smsContent);
+
+        console.log(`\n✓ VEIKSMĪGI EKSPORTĒTS uz: ${exportedFile}`);
+        console.log("--- FAILA SATURS (SMS/WhatsApp) ---");
+        console.log(smsContent);
+        console.log("------------------------------");
+      }
+      break;
+
     case "clear":
-      saveList([]);
-      console.log("✓ Saraksts ir notīrīts.");
+      saveList(activeFile, []);
+      console.log(`✓ Saraksts ${activeFile} ir notīrīts.`);
       break;
 
     default:
-      console.log("Nezināma komanda! Izmanto: add, list, total, clear");
+      console.log("Nezināma komanda! Izmanto: add, list, total, clear, export");
   }
 
   rl.close(); // Obligāti aizveram interfeisu beigās
