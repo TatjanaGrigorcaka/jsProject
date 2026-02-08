@@ -32,11 +32,12 @@ async function run() {
   const [, , command, name, qtyInput] = process.argv;
   // Sākotnēji ielādējam datus atmiņā
   let list = loadList();
+  // Ielādējam esošās cenas
+  let prices = loadPrices();
 
   switch (command) {
     case "add":
       const qty = Number(qtyInput);
-      let prices = loadPrices(); // Ielādējam esošās cenas
 
       if (!name || isNaN(qty) || qty <= 0) {
         console.log("Kļūda: Izmanto: add [nosaukums] [daudzums]");
@@ -77,9 +78,9 @@ async function run() {
         const item = { name: productName, qty, price: finalPrice };
         list.push(item);
         saveList(list);
-
+        const lineTotal = calcLineTotal(item).toFixed(2);
         console.log(
-          `✓ Pievienots: ${productName} × ${qty} (${finalPrice.toFixed(2)} EUR/gab.) = ${(qty * finalPrice).toFixed(2)} EUR`,
+          `✓ Pievienots: ${productName} × ${qty} (${finalPrice.toFixed(2)} EUR/gab.) = ${lineTotal} EUR`,
         );
       }
       break;
@@ -122,8 +123,8 @@ run();
 
 // Palaižam programmu
 // CLI commands to ran shop.js
-// node shop.js add Maize 3 1.20
-// node shop.js add Piens 2 1.50
+// node shop.js add Maize 3
+// node shop.js add Piens 2
 // node shop.js list
 // node shop.js total
 // node shop.js clear
